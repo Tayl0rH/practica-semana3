@@ -1,0 +1,40 @@
+<!-- Events Filter -->
+
+<nav class="navbar navbar-light bg-light justify-content-between mt-3">
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="orderDate()">Orden por fecha</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" (click)="orderPrice()">Orden por precio</a>
+    </li>
+  </ul>
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="text" [(ngModel)]="search" name="search" placeholder="Search"
+      aria-label="Search">
+  </form>
+</nav>
+
+<!-- Formulario Añadir Evento -->
+
+<app-event-add (addingEvent)="storingEvent($event)"/>
+
+<!-- Show Eventos -->
+<div class="row">
+  @for (event of (events | eventFilter: search); track event) {
+  @if (events.length <=0) { <h3>No hay eventos...</h3>
+    }
+    <div class="col-6 mt-4">
+
+      <!--
+      Repetir esto por cada evento
+
+
+      Aquí <app-event-item>
+      -->
+      <app-event-item [event]="event" class="card" (deletingEvent)="deleteEvent(event)"/>
+
+
+    </div>
+    }
+</div>
