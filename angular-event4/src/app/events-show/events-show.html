@@ -21,20 +21,21 @@
 
 <!-- Show Eventos -->
 <div class="row">
-  @for (event of (events | eventFilter: search); track event) {
-  @if (events.length <=0) { <h3>No hay eventos...</h3>
+  @if (events$ | async; as eventsList) {
+    @for (event of (eventsList | eventFilter: search); track event) {
+      @if (events.length <=0) { <h3>No hay eventos...</h3>}
+      <div class="col-6 mt-4">
+
+        <!--
+        Repetir esto por cada evento
+
+
+        Aquí <app-event-item>
+        -->
+        <app-event-item [event]="event" class="card" (deletingEvent)="deleteEvent(event)"/>
+
+
+      </div>
     }
-    <div class="col-6 mt-4">
-
-      <!--
-      Repetir esto por cada evento
-
-
-      Aquí <app-event-item>
-      -->
-      <app-event-item [event]="event" class="card" (deletingEvent)="deleteEvent(event)"/>
-
-
-    </div>
-    }
+  }
 </div>

@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { IEvent } from './interfaces/i-event';
+import { IEvent } from '../interfaces/i-event';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root',
@@ -7,8 +10,8 @@ import { IEvent } from './interfaces/i-event';
 export class EventService {
 
   events: IEvent[] = [
-      {
-        title: 'Discoteca spook',
+    {
+      title: 'Discoteca spook',
         image: '/images/spook.jpg',
         date: '2026-04-23',
         description:
@@ -49,7 +52,12 @@ export class EventService {
       },
     ];
 
-  getEvents(): IEvent[]{
-    return [...this.events];
+
+  private eventsEndpoint = 'http://localhost:3000/events';
+
+  constructor(private http: HttpClient) {}
+
+  getEvents(): Observable<IEvent[]>{
+    return this.http.get<IEvent[]>(this.eventsEndpoint);
   }
 }
