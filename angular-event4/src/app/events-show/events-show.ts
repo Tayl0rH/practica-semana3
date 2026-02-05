@@ -27,6 +27,7 @@ export class EventsShow {
     this.events$=this.eventServ.getEvents();
   }
 
+
   storingEvent(newEvent: IEvent){
     this.events =[...this.events, newEvent];
   }
@@ -49,6 +50,10 @@ export class EventsShow {
   /*
     this.events.splice(this.events.indexOf(thisEvent), 1);
   */
-    this.events = this.events.filter((e) => e !== thisEvent);
+    //this.events = this.events.filter((e) => e !== thisEvent);
+
+    this.eventServ.deletingEvent(thisEvent.id!).subscribe();
+
+    this.events$ = this.eventServ.getEvents();
   }
 }

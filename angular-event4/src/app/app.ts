@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { EventsShow } from "./events-show/events-show";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [EventsShow],
+  imports: [ RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -17,23 +17,17 @@
 
 <!-- Formulario Añadir Evento -->
 
-<app-event-add (addingEvent)="storingEvent($event)"/>
+<!-- <app-event-add (addingEvent)="storingEvent($event)"/> -->
 
 <!-- Show Eventos -->
 <div class="row">
   @if (events$ | async; as eventsList) {
+    @if (eventsList.length ==0) { <h3>No hay eventos...</h3>}
     @for (event of (eventsList | eventFilter: search); track event) {
-      @if (events.length <=0) { <h3>No hay eventos...</h3>}
+
       <div class="col-6 mt-4">
 
-        <!--
-        Repetir esto por cada evento
-
-
-        Aquí <app-event-item>
-        -->
         <app-event-item [event]="event" class="card" (deletingEvent)="deleteEvent(event)"/>
-
 
       </div>
     }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IEvent } from '../interfaces/i-event';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 
 @Injectable({
@@ -58,6 +58,27 @@ export class EventService {
   constructor(private http: HttpClient) {}
 
   getEvents(): Observable<IEvent[]>{
-    return this.http.get<IEvent[]>(this.eventsEndpoint);
+    return this.http
+      .get<IEvent[]>(this.eventsEndpoint);
+  }
+
+  addEvent(event: IEvent): Observable<IEvent>{
+    return this.http
+      .post<IEvent>(this.eventsEndpoint, event)
+      .pipe(
+        catchError((resp: HttpErrorResponse)=>
+          throwError(
+            ()=>
+              new Error(
+                `Error al crear evento, códifo de servidor: ${resp.status}. Mensaje: ${resp.message}`,
+              ),
+          ),
+        ),
+      );
+  }
+
+  deletingEvent(id: string): Observable<any> {
+    return this.http
+      .delete<IEvent>(`${this.eventsEndpoint}/${id}`);
   }
 }
